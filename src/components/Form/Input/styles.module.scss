@@ -1,0 +1,51 @@
+@keyframes shake {
+  25% { 
+    transform: translateX(4px);
+  }
+  50% { 
+    transform: translateX(-4px);
+  }
+  75% { 
+    transform: translateX(4px);
+  }
+}
+
+.inputContainer {
+  label {
+    display: block;
+    font-size: 1.6rem;
+    line-height: 19px;
+    margin-bottom: 13px;
+  }
+
+  .inputError {
+    border: 1px solid var(--red-500);
+    animation: shake 300ms;
+  }
+
+  input {
+    border: 1px solid var(--gray-500);
+    border-radius: 4px;
+    font-size: 1.6rem;
+    height: 28px;
+    padding: 0.6rem 1rem;
+    width: 100%;
+
+    &::placeholder {
+      color: #ccc;
+      font-size: 1.4rem;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  small {
+    color: var(--red-500);
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+}

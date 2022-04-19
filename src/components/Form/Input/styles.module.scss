@@ -1,15 +1,3 @@
-@keyframes shake {
-  25% { 
-    transform: translateX(4px);
-  }
-  50% { 
-    transform: translateX(-4px);
-  }
-  75% { 
-    transform: translateX(4px);
-  }
-}
-
 .inputContainer {
   label {
     display: block;
@@ -20,7 +8,7 @@
 
   .inputError {
     border: 1px solid var(--red-500);
-    animation: shake 300ms;
+    animation: var(--animation-shake);
   }
 
   input {

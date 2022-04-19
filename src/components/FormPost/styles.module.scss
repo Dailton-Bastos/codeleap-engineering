@@ -1,0 +1,50 @@
+.formContainer {
+  border: 1px solid var(--gray-600);
+  padding: 2.3rem 3rem 2.9rem;
+
+  p {
+    color: var(--black);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 25px;
+    margin-bottom: 3.4rem;
+  }
+
+  .formContent {
+    margin: 1.9rem 0 3.5rem;
+
+    label {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 19px;
+      margin-bottom: 13px;
+    }
+
+    textarea {
+      border: 1px solid var(--gray-500);
+      border-radius: 4px;
+      min-height: 74px;
+      max-height: 250px;
+      padding: 0.6rem 1rem;
+      resize: vertical;
+      width: 100%;
+
+      &::placeholder {
+        color: #ccc;
+        font-size: 1.4rem;
+      }
+  
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .submitButton {
+    align-items: center;
+    display: flex;
+    margin-top: 2rem;
+    justify-content: flex-end;
+    width: 100%;
+  }
+}

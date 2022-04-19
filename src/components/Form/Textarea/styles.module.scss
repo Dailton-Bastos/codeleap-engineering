@@ -1,0 +1,40 @@
+.textareaContainer {
+  label {
+    display: block;
+    font-size: 1.6rem;
+    line-height: 19px;
+    margin-bottom: 13px;
+  }
+
+  .textareaError {
+    border: 1px solid var(--red-500);
+    animation: var(--animation-shake);
+  }
+
+  textarea {
+    border: 1px solid var(--gray-500);
+    border-radius: 4px;
+    min-height: 74px;
+    max-height: 250px;
+    padding: 0.6rem 1rem;
+    resize: vertical;
+    width: 100%;
+
+    &::placeholder {
+      color: #ccc;
+      font-size: 1.4rem;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  small {
+    color: var(--red-500);
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+}

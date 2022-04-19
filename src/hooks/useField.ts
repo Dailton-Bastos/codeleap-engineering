@@ -1,6 +1,6 @@
 import React from 'react'
 
-type EventType = React.ChangeEvent<HTMLInputElement>
+type EventType = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 
 export const useField = (type: string) => {
   const [value, setValue] = React.useState('')

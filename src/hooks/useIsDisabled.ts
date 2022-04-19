@@ -8,7 +8,7 @@ export const useIsDisabled = (values: string[]) => {
   }
 
   React.useEffect(() => {
-    setIsDisabled(values.every(isValid))
+    setIsDisabled(values.some(isValid))
   }, [values])
 
   return { isDisabled }

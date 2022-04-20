@@ -1,6 +1,19 @@
+@keyframes appearFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .formContainer {
   border: 1px solid var(--gray-600);
   padding: 2.3rem 3rem 2.9rem;
+  animation: appearFromLeft 0.3s;
 
   p {
     color: var(--black);

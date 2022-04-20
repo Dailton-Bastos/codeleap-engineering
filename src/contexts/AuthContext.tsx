@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { api } from '~/services/api'
 
@@ -15,6 +16,7 @@ type AuthContextData = {
   user: User | null
   isLoading: boolean
   isError: boolean
+  isAuthenticated: boolean
 }
 
 export const AuthContext = React.createContext({} as AuthContextData)
@@ -24,6 +26,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
 
+  const isAuthenticated = !!user
+
+  const navigate = useNavigate()
+
   React.useEffect(() => {
     const username = window.localStorage.getItem('@codeleap:user')
 
@@ -32,29 +38,36 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [])
 
-  const signIn = React.useCallback(async (username: string) => {
-    try {
-      setIsLoading(true)
+  const signIn = React.useCallback(
+    async (username: string) => {
+      try {
+        setIsLoading(true)
 
-      const response = await api.post('/careers/', {
-        username,
-        title: `Hi, I'm ${username}!`,
-        content: 'Nice to meet you.',
-      })
+        const response = await api.post('/careers/', {
+          username,
+          title: `Hi, I'm ${username}!`,
+          content: 'Nice to meet you.',
+        })
 
-      const { username: name } = response.data
+        const { username: name } = response.data
 
-      window.localStorage.setItem('@codeleap:user', name)
+        window.localStorage.setItem('@codeleap:user', name)
 
-      setUser({ username: name })
+        setUser({ username: name })
 
-      setIsLoading(false)
-    } catch (error) {
-      setIsError(true)
-      setIsLoading(false)
-      throw new Error('App Error')
-    }
-  }, [])
+        setIsLoading(false)
+
+        navigate('/')
+      } catch (error) {
+        setIsError(true)
+        setIsLoading(false)
+        throw new Error('App Error')
+      } finally {
+        setIsLoading(false)
+      }
+    },
+    [navigate],
+  )
 
   const contextValue = React.useMemo(
     () => ({
@@ -62,8 +75,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       signIn,
       isLoading,
       isError,
+      isAuthenticated,
     }),
-    [user, signIn, isLoading, isError],
+    [user, signIn, isLoading, isError, isAuthenticated],
   )
 
   return (

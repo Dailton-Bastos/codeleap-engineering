@@ -1,4 +1,5 @@
 import React from 'react'
+import { Navigate } from 'react-router-dom'
 
 import { Error } from '~/components/Error'
 import { Button } from '~/components/Form/Button'
@@ -15,7 +16,12 @@ export const SignUp = () => {
 
   const { isDisabled } = useIsDisabled([value])
 
-  const { signIn, isLoading, isError: authError } = useAuthContext()
+  const {
+    signIn,
+    isLoading,
+    isError: authError,
+    isAuthenticated,
+  } = useAuthContext()
 
   const handleSubmit = React.useCallback(
     async (event: React.SyntheticEvent) => {
@@ -33,6 +39,8 @@ export const SignUp = () => {
     },
     [signIn],
   )
+
+  if (isAuthenticated) return <Navigate to="/" />
 
   return (
     <section className={styles.signUpContainer}>

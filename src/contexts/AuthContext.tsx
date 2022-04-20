@@ -13,12 +13,16 @@ type AuthProviderProps = {
 type AuthContextData = {
   signIn: (username: string) => Promise<void>
   user: User | null
+  isLoading: boolean
+  isError: boolean
 }
 
 export const AuthContext = React.createContext({} as AuthContextData)
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = React.useState<User | null>(null)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const [isError, setIsError] = React.useState(false)
 
   React.useEffect(() => {
     const username = window.localStorage.getItem('@codeleap:user')
@@ -30,6 +34,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = React.useCallback(async (username: string) => {
     try {
+      setIsLoading(true)
+
       const response = await api.post('/careers/', {
         username,
         title: `Hi, I'm ${username}!`,
@@ -41,7 +47,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       window.localStorage.setItem('@codeleap:user', name)
 
       setUser({ username: name })
+
+      setIsLoading(false)
     } catch (error) {
+      setIsError(true)
+      setIsLoading(false)
       throw new Error('App Error')
     }
   }, [])
@@ -50,8 +60,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     () => ({
       user,
       signIn,
+      isLoading,
+      isError,
     }),
-    [user, signIn],
+    [user, signIn, isLoading, isError],
   )
 
   return (

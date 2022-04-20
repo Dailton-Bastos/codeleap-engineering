@@ -1,0 +1,43 @@
+@keyframes load {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loaderContainer {
+  animation: load 1.4s infinite linear;
+  background: linear-gradient(to right, #fff 10%, rgba(255, 255, 255, 0) 42%);
+  border-radius: 50%;
+  height: 20px;
+  position: relative;
+  transform: translateZ(0);
+  width: 20px;
+
+  &::before {
+    background: var(--white);
+    border-radius: 100% 0 0 0;
+    content: '';
+    height: 50%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 50%;
+  }
+
+  &::after {
+    background: var(--black);
+    border-radius: 50%;
+    bottom: 0;
+    content: '';
+    right: 0;
+    height: 90%;
+    margin: auto;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 90%;
+  }
+}

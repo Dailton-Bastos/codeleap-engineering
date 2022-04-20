@@ -1,7 +1,9 @@
 import React from 'react'
 
+import { Error } from '~/components/Error'
 import { Button } from '~/components/Form/Button'
 import { Input } from '~/components/Form/Input'
+import { Loader } from '~/components/Loader'
 import { useAuthContext } from '~/hooks/useAuthContext'
 import { useField } from '~/hooks/useField'
 import { useIsDisabled } from '~/hooks/useIsDisabled'
@@ -13,7 +15,7 @@ export const SignUp = () => {
 
   const { isDisabled } = useIsDisabled([value])
 
-  const { signIn } = useAuthContext()
+  const { signIn, isLoading, isError: authError } = useAuthContext()
 
   const handleSubmit = React.useCallback(
     async (event: React.SyntheticEvent) => {
@@ -49,8 +51,16 @@ export const SignUp = () => {
           onChange={onChange}
         />
 
+        {authError && <Error message="Error, please try again." />}
+
         <div className={styles.submitButton}>
-          <Button disabled={isDisabled}>Enter</Button>
+          {isLoading ? (
+            <button type="button" disabled>
+              <Loader />
+            </button>
+          ) : (
+            <Button disabled={isDisabled}>Enter</Button>
+          )}
         </div>
       </form>
     </section>

@@ -1,8 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { api } from '~/services/api'
-
 type User = {
   username: string
 }
@@ -17,6 +15,7 @@ type AuthContextData = {
   isLoading: boolean
   isError: boolean
   isAuthenticated: boolean
+  signOut: () => void
 }
 
 export const AuthContext = React.createContext({} as AuthContextData)
@@ -25,8 +24,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = React.useState<User | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
   const [isError, setIsError] = React.useState(false)
-
-  const isAuthenticated = !!user
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false)
 
   const navigate = useNavigate()
 
@@ -35,38 +33,50 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (username) {
       setUser({ username })
+      setIsAuthenticated(true)
     }
   }, [])
+
+  const signOut = React.useCallback(() => {
+    window.localStorage.removeItem('@codeleap:user')
+
+    setUser({} as User)
+
+    setIsAuthenticated(false)
+
+    navigate('/signup')
+  }, [navigate])
 
   const signIn = React.useCallback(
     async (username: string) => {
       try {
         setIsLoading(true)
 
-        const response = await api.post('/careers/', {
-          username,
-          title: `Hi, I'm ${username}!`,
-          content: 'Nice to meet you.',
+        await new Promise((resolve) => {
+          if (username) {
+            setTimeout(resolve, 2000)
+          }
         })
 
-        const { username: name } = response.data
+        window.localStorage.setItem('@codeleap:user', username)
 
-        window.localStorage.setItem('@codeleap:user', name)
-
-        setUser({ username: name })
+        setUser({ username })
 
         setIsLoading(false)
+
+        setIsAuthenticated(true)
 
         navigate('/')
       } catch (error) {
         setIsError(true)
         setIsLoading(false)
+        signOut()
         throw new Error('App Error')
       } finally {
         setIsLoading(false)
       }
     },
-    [navigate],
+    [navigate, signOut],
   )
 
   const contextValue = React.useMemo(
@@ -76,8 +86,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       isLoading,
       isError,
       isAuthenticated,
+      signOut,
     }),
-    [user, signIn, isLoading, isError, isAuthenticated],
+    [user, signIn, isLoading, isError, isAuthenticated, signOut],
   )
 
   return (

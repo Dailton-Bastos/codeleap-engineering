@@ -1,16 +1,16 @@
 import React from 'react'
 
 import { Error } from '~/components/Error'
-import { FormPost } from '~/components/FormPost'
 import { Header } from '~/components/Header'
 import { Loader } from '~/components/Loader'
 import { Post } from '~/components/Post'
-import { useFetchPosts } from '~/hooks/usePost'
+import { Form } from '~/components/Post/Form'
+import { usePosts } from '~/hooks/usePost'
 
 import styles from './styles.module.scss'
 
-export const Posts = () => {
-  const { data, error, loading } = useFetchPosts()
+export const Home = () => {
+  const { posts, handleSubmit, error, loading } = usePosts()
 
   return (
     <main className={styles.mainContainer}>
@@ -18,14 +18,14 @@ export const Posts = () => {
         <Header />
 
         <div className={styles.mainContent}>
-          <FormPost />
+          <Form handleSubmit={handleSubmit} isLoading={loading} />
+
+          {error && <Error message="Error" />}
 
           {loading && <Loader />}
 
-          {error && <Error message="Error fetch all posts" />}
-
           <div className={styles.posts}>
-            {data?.posts?.map((post) => (
+            {posts?.map((post) => (
               <Post post={post} key={post.id} />
             ))}
           </div>

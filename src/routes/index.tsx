@@ -1,7 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 
-import { Posts } from '~/pages/Posts'
+import { Home } from '~/pages/Home'
 import { SignUp } from '~/pages/SignUp'
 import { ProtectedRoute } from '~/routes/ProtectedRoute'
 
@@ -13,7 +13,7 @@ export const AppRoutes = () => {
         path="/"
         element={
           <ProtectedRoute>
-            <Posts />
+            <Home />
           </ProtectedRoute>
         }
       />

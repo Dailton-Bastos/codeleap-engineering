@@ -1,5 +1,7 @@
 import React, { TextareaHTMLAttributes } from 'react'
 
+import { Error } from '~/components/Error'
+
 import styles from './styles.module.scss'
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
@@ -26,7 +28,7 @@ export const Textarea = ({
         {...rest}
       />
 
-      {error && <small>{messageError}</small>}
+      {error && messageError && <Error message={messageError} />}
     </div>
   )
 }

@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { AxiosRequestConfig } from 'axios'
+
 import { api } from '~/services/api'
 
 export const useFetch = () => {
@@ -7,14 +9,14 @@ export const useFetch = () => {
   const [error, setError] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
 
-  const request = React.useCallback(async (url) => {
+  const request = React.useCallback(async (options: AxiosRequestConfig) => {
     let json
     let response
 
     try {
       setError(false)
       setLoading(true)
-      response = await api.get(url)
+      response = await api(options)
       json = response.data
     } catch (_) {
       json = null

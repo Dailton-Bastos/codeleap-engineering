@@ -70,7 +70,7 @@ export const Form = ({ handleSubmit, isLoading }: FormProps) => {
       </div>
 
       <div className={styles.submitButton}>
-        {isLoading ? (
+        {isLoading && !isDisabled ? (
           <button type="button" disabled>
             <Loader />
           </button>

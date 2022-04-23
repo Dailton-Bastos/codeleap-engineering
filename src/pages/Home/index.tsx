@@ -22,7 +22,11 @@ export const Home = () => {
 
           {error && <Error message="Error" />}
 
-          {loading && <Loader />}
+          {loading && (
+            <div className={styles.loader}>
+              <Loader type="ellipsis" />
+            </div>
+          )}
 
           <div className={styles.posts}>
             {posts?.map((post) => (

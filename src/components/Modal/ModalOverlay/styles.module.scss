@@ -1,0 +1,9 @@
+.modalOverlay {
+  background: var(--grayAlpha-200);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  z-index: 200;
+}

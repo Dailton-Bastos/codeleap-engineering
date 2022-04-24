@@ -1,0 +1,19 @@
+.modal {
+  .modalContainer {
+    align-items: flex-start;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    overflow: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+  }
+
+  .modaBody {
+    min-height: 168px;
+    padding: 2.3rem 3rem 3rem;
+  }
+}

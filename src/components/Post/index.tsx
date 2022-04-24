@@ -55,6 +55,7 @@ export const Post = ({ post }: PostProps) => {
           isOpen={isOpen}
           onClose={() => onClose()}
           showModalCloseButton
+          closeOnOverlayClick
           isCentered
         >
           <p>Are you sure you want to delete this item?</p>

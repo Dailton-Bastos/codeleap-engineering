@@ -1,8 +1,8 @@
 import React from 'react'
 import { RiDeleteBin2Fill, RiEditBoxLine } from 'react-icons/ri'
 
+import { Can } from '~/components/Can'
 import { Modal } from '~/components/Modal'
-import { useAuthContext } from '~/hooks/useAuthContext'
 import { useDisclosure } from '~/hooks/useDisclosure'
 
 import { Preview } from './Preview'
@@ -19,16 +19,15 @@ interface PostProps {
 }
 
 export const Post = ({ post }: PostProps) => {
-  const { user } = useAuthContext()
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   return (
-    <article className={styles.postWrapper}>
-      <div className={styles.postTitle}>
-        <h2>{post.title}</h2>
+    <>
+      <article className={styles.postWrapper}>
+        <div className={styles.postTitle}>
+          <h2>{post.title}</h2>
 
-        {user?.username === post.username && (
-          <>
+          <Can username={post.username}>
             <div className={styles.postTitleButtons}>
               <button type="button" onClick={onOpen}>
                 <RiDeleteBin2Fill color="#fff" size={22} />
@@ -38,27 +37,29 @@ export const Post = ({ post }: PostProps) => {
                 <RiEditBoxLine color="#fff" size={22} />
               </button>
             </div>
-
-            <Modal
-              isOpen={isOpen}
-              onClose={() => onClose()}
-              showModalCloseButton
-              isCentered
-            >
-              <p>Are you sure you want to delete this item?</p>
-            </Modal>
-          </>
-        )}
-      </div>
-
-      <div className={styles.postContent}>
-        <div className={styles.postContentAuthor}>
-          <strong>{`@${post.username}`}</strong>
-          <time>{post.timeDistance}</time>
+          </Can>
         </div>
 
-        <Preview>{post.content}</Preview>
-      </div>
-    </article>
+        <div className={styles.postContent}>
+          <div className={styles.postContentAuthor}>
+            <strong>{`@${post.username}`}</strong>
+            <time>{post.timeDistance}</time>
+          </div>
+
+          <Preview>{post.content}</Preview>
+        </div>
+      </article>
+
+      <Can username={post.username}>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => onClose()}
+          showModalCloseButton
+          isCentered
+        >
+          <p>Are you sure you want to delete this item?</p>
+        </Modal>
+      </Can>
+    </>
   )
 }

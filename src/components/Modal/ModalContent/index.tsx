@@ -14,7 +14,7 @@ export const ModalContent = ({
   return (
     <section
       className={styles.modalContent}
-      style={{ margin: isCentered ? 'auto' : 'margin: 10.4rem auto' }}
+      style={{ margin: isCentered ? 'auto' : '12.4rem auto' }}
     >
       {children}
     </section>

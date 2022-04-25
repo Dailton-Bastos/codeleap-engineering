@@ -5,6 +5,7 @@ import { Can } from '~/components/Can'
 import { Modal } from '~/components/Modal'
 import { useDisclosure } from '~/hooks/useDisclosure'
 
+import { DeleteConfirmModal } from './DeleteConfirmModal'
 import { Preview } from './Preview'
 import styles from './styles.module.scss'
 
@@ -51,14 +52,12 @@ export const Post = ({ post }: PostProps) => {
       </article>
 
       <Can username={post.username}>
-        <Modal
-          isOpen={isOpen}
-          onClose={() => onClose()}
-          showModalCloseButton
-          closeOnOverlayClick
-          isCentered
-        >
-          <p>Are you sure you want to delete this item?</p>
+        <Modal isOpen={isOpen} onClose={() => onClose()} closeOnOverlayClick>
+          <DeleteConfirmModal
+            onCancel={onClose}
+            onConfirm={() => alert('OK')}
+            isDisabled={false}
+          />
         </Modal>
       </Can>
     </>

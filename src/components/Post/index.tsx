@@ -17,14 +17,17 @@ interface PostProps {
     content: string
     timeDistance: string
   }
+  handleDelete: (postID: number) => void
+  isLoading: boolean
+  isError: boolean
 }
 
-export const Post = ({ post }: PostProps) => {
+export const Post = ({ post, handleDelete, isLoading, isError }: PostProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   return (
     <>
-      <article className={styles.postWrapper}>
+      <article className={styles.postWrapper} key={post.id}>
         <div className={styles.postTitle}>
           <h2>{post.title}</h2>
 
@@ -55,8 +58,9 @@ export const Post = ({ post }: PostProps) => {
         <Modal isOpen={isOpen} onClose={() => onClose()} closeOnOverlayClick>
           <DeleteConfirmModal
             onCancel={onClose}
-            onConfirm={() => alert('OK')}
-            isDisabled={false}
+            onConfirm={() => handleDelete(post.id)}
+            isDisabled={isLoading}
+            isError={isError}
           />
         </Modal>
       </Can>

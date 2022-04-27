@@ -1,7 +1,5 @@
 import React from 'react'
 
-import { parseISO, formatDistance } from 'date-fns'
-
 import { useAuthContext } from '~/hooks/useAuthContext'
 
 import { useFetch } from './useFetch'
@@ -22,7 +20,8 @@ interface DataResponse {
 
 export function usePosts() {
   const [data, setData] = React.useState<DataResponse>({} as DataResponse)
-  const [posts, setPosts] = React.useState<Post[]>([])
+  const [isLoading, seIsLoaading] = React.useState(false)
+  const [isError, seIsError] = React.useState(false)
 
   const { request, error, loading } = useFetch()
   const { user } = useAuthContext()
@@ -66,28 +65,23 @@ export function usePosts() {
     [user?.username, data, request],
   )
 
-  React.useEffect(() => {
-    const formattedPosts =
-      data?.results &&
-      data?.results
-        .map((post: Post) => {
-          return {
-            ...post,
-            timeDistance: formatDistance(
-              parseISO(post.created_datetime),
-              new Date(),
-              { addSuffix: true },
-            ),
-          }
-        })
-        .sort(
-          (a, b) =>
-            new Date(b.created_datetime).getTime() -
-            new Date(a.created_datetime).getTime(),
-        )
+  const handleDelete = React.useCallback(
+    async (postID: number) => {
+      await request({
+        url: `careers/${postID}/`,
+        method: 'DELETE',
+      })
 
-    setPosts(formattedPosts)
-  }, [data])
+      const results = data?.results?.filter((post) => post.id !== postID)
+
+      setData({
+        ...data,
+        count: data.count - 1,
+        results,
+      })
+    },
+    [data, request],
+  )
 
   React.useEffect(() => {
     async function fetchPosts() {
@@ -101,7 +95,12 @@ export function usePosts() {
     }
 
     fetchPosts()
-  }, [request])
+  }, [request, setData])
 
-  return { data, posts, setData, error, loading, handleSubmit }
+  React.useEffect(() => {
+    seIsLoaading(loading)
+    seIsError(error)
+  }, [loading, error])
+
+  return { data, setData, isError, isLoading, handleSubmit, handleDelete }
 }

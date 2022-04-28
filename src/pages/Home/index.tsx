@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import { Error } from '~/components/Error'
 import { Header } from '~/components/Header'
 import { Loader } from '~/components/Loader'
@@ -17,10 +19,12 @@ type Post = {
   timeDistance: string
   title: string
   content: string
+  key?: string
 }
 
 export const Home = () => {
-  const { handleSubmit, data, handleDelete, isLoading, isError } = usePosts()
+  const { handleSubmit, data, handleDelete, isLoading, isError, setPage } =
+    usePosts()
   const [posts, setPosts] = React.useState<Post[]>([])
 
   React.useEffect(() => {
@@ -31,6 +35,7 @@ export const Home = () => {
           return {
             ...post,
             timeDistance: getTimeDistance(post.created_datetime),
+            key: uuidv4(),
           }
         })
         .sort(
@@ -50,6 +55,19 @@ export const Home = () => {
         <div className={styles.mainContent}>
           <Form handleSubmit={handleSubmit} isLoading={isLoading} />
 
+          <div className={styles.posts}>
+            {posts &&
+              posts.map((post) => (
+                <Post
+                  post={post}
+                  key={post.key}
+                  handleDelete={handleDelete}
+                  isLoading={isLoading}
+                  isError={isError}
+                />
+              ))}
+          </div>
+
           {isError && <Error message="Server error, try again" />}
 
           {isLoading && (
@@ -58,18 +76,22 @@ export const Home = () => {
             </div>
           )}
 
-          <div className={styles.posts}>
-            {posts &&
-              posts.map((post) => (
-                <Post
-                  post={post}
-                  key={post.id}
-                  handleDelete={handleDelete}
-                  isLoading={isLoading}
-                  isError={isError}
-                />
-              ))}
-          </div>
+          {posts && (
+            <p>
+              Showing <strong>{posts?.length}</strong> of{' '}
+              <strong>{data?.count}</strong>
+            </p>
+          )}
+
+          {!isLoading && data?.next && (
+            <button
+              type="button"
+              className={styles.buttonFetchMore}
+              onClick={() => setPage((prev) => prev + 10)}
+            >
+              Load more posts
+            </button>
+          )}
         </div>
       </section>
     </main>

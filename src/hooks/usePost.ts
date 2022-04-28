@@ -11,10 +11,13 @@ type Post = {
   timeDistance: string
   title: string
   content: string
+  key?: string
 }
 
 interface DataResponse {
   count: number
+  next?: string
+  previous?: string
   results: Post[]
 }
 
@@ -22,6 +25,7 @@ export function usePosts() {
   const [data, setData] = React.useState<DataResponse>({} as DataResponse)
   const [isLoading, seIsLoaading] = React.useState(false)
   const [isError, seIsError] = React.useState(false)
+  const [page, setPage] = React.useState(0)
 
   const { request, error, loading } = useFetch()
   const { user } = useAuthContext()
@@ -86,21 +90,36 @@ export function usePosts() {
   React.useEffect(() => {
     async function fetchPosts() {
       const { response, json } = await request({
-        url: 'careers/',
+        url: `careers/?limit=10&offset=${page}`,
       })
 
       if (response.status !== 200) return
 
-      setData(json)
+      setData((prev) => {
+        const currentResults = prev?.results || []
+
+        return {
+          ...json,
+          results: [...currentResults, ...json.results],
+        }
+      })
     }
 
     fetchPosts()
-  }, [request, setData])
+  }, [request, setData, page])
 
   React.useEffect(() => {
     seIsLoaading(loading)
     seIsError(error)
-  }, [loading, error])
+  }, [loading, error, page])
 
-  return { data, setData, isError, isLoading, handleSubmit, handleDelete }
+  return {
+    data,
+    setData,
+    isError,
+    isLoading,
+    handleSubmit,
+    handleDelete,
+    setPage,
+  }
 }

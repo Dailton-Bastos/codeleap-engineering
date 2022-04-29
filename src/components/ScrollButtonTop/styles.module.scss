@@ -1,0 +1,36 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.buttonContainer {
+  animation: fadeIn 3s;
+  align-items: center;
+  background: var(--black);
+  border: none;
+  border-radius: 50%;
+  bottom: 25px;
+  display: flex;
+  height: 40px;
+  position: fixed;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.4s;
+  right: 25px;
+  justify-content: center;
+  width: 40px;
+  z-index: 2;
+
+  &.visible {
+    visibility: visible;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

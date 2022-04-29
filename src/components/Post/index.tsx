@@ -4,6 +4,7 @@ import { RiDeleteBin2Fill, RiEditBoxLine } from 'react-icons/ri'
 import { Can } from '~/components/Can'
 import { Modal } from '~/components/Modal'
 import { useDisclosure } from '~/hooks/useDisclosure'
+import { useScrollToTop } from '~/hooks/useScroll'
 
 import { DeleteConfirmModal } from './DeleteConfirmModal'
 import { Preview } from './Preview'
@@ -24,10 +25,15 @@ interface PostProps {
 
 export const Post = ({ post, handleDelete, isLoading, isError }: PostProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const { targetRef, isAnimation } = useScrollToTop()
 
   return (
     <>
-      <article className={styles.postWrapper} key={post.id}>
+      <article
+        className={`${styles.postWrapper} ${isAnimation ? styles.visible : ''}`}
+        key={post.id}
+        ref={targetRef}
+      >
         <div className={styles.postTitle}>
           <h2>{post.title}</h2>
 

@@ -7,6 +7,7 @@ import { Header } from '~/components/Header'
 import { Loader } from '~/components/Loader'
 import { Post } from '~/components/Post'
 import { Form } from '~/components/Post/Form'
+import { ScrollButtonTop } from '~/components/ScrollButtonTop'
 import { usePosts } from '~/hooks/usePost'
 import { getTimeDistance } from '~/utils/helpers'
 
@@ -94,6 +95,8 @@ export const Home = () => {
           )}
         </div>
       </section>
+
+      <ScrollButtonTop />
     </main>
   )
 }

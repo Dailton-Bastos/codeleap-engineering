@@ -7,6 +7,7 @@ import { useDisclosure } from '~/hooks/useDisclosure'
 import { useScrollToTop } from '~/hooks/useScroll'
 
 import { DeleteConfirmModal } from './DeleteConfirmModal'
+import { EditModal } from './EditModal'
 import { Preview } from './Preview'
 import styles from './styles.module.scss'
 
@@ -19,12 +20,26 @@ interface PostProps {
     timeDistance: string
   }
   handleDelete: (postID: number) => void
+  handleEditSubmit: (event: React.SyntheticEvent) => Promise<void>
   isLoading: boolean
   isError: boolean
 }
 
-export const Post = ({ post, handleDelete, isLoading, isError }: PostProps) => {
+export const Post = ({
+  post,
+  handleDelete,
+  handleEditSubmit,
+  isLoading,
+  isError,
+}: PostProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
+
+  const {
+    isOpen: isOpenEditModal,
+    onClose: onCloseEditModal,
+    onOpen: onOpenEditModal,
+  } = useDisclosure()
+
   const { targetRef, isAnimation } = useScrollToTop()
 
   return (
@@ -43,7 +58,7 @@ export const Post = ({ post, handleDelete, isLoading, isError }: PostProps) => {
                 <RiDeleteBin2Fill color="#fff" size={22} />
               </button>
 
-              <button type="button">
+              <button type="button" onClick={onOpenEditModal}>
                 <RiEditBoxLine color="#fff" size={22} />
               </button>
             </div>
@@ -69,6 +84,15 @@ export const Post = ({ post, handleDelete, isLoading, isError }: PostProps) => {
             isError={isError}
           />
         </Modal>
+
+        <EditModal
+          post={post}
+          isOpen={isOpenEditModal}
+          onClose={onCloseEditModal}
+          handleEditSubmit={handleEditSubmit}
+          isLoading={isLoading}
+          isError={isError}
+        />
       </Can>
     </>
   )

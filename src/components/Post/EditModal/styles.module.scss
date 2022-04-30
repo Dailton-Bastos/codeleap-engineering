@@ -1,0 +1,31 @@
+.formContainer {
+  p {
+    color: var(--black);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 25px;
+    margin-bottom: 3.4rem;
+  }
+
+  .formContent {
+    margin: 1.9rem 0 3.5rem;
+  }
+
+  .submitButton {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    > button {
+      align-items: center;
+      background: var(--black);
+      border: none;
+      display: flex;
+      height: 33px;
+      justify-content: center;
+      width: 111px;
+      cursor: not-allowed;
+    }
+  }
+}

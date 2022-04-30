@@ -69,6 +69,53 @@ export function usePosts() {
     [user?.username, data, request],
   )
 
+  const handleEditSubmit = React.useCallback(
+    async (event: React.SyntheticEvent) => {
+      event.preventDefault()
+
+      const target = event.target as typeof event.target & {
+        titleEdit: { value: string }
+        contentEdit: { value: string }
+        post_id: { value: string }
+      }
+
+      const isValid = target.titleEdit && target.contentEdit
+
+      const formData = {
+        title: target.titleEdit.value,
+        content: target.contentEdit.value,
+        postId: target.post_id.value,
+      }
+
+      if (!isValid) return
+
+      const { response } = await request({
+        url: `careers/${formData.postId}/`,
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json' },
+        data: JSON.stringify(formData),
+      })
+
+      if (response.status !== 200) return
+
+      const results = data?.results.map((post) => {
+        return post.id === +formData.postId
+          ? {
+              ...post,
+              title: formData.title,
+              content: formData.content,
+            }
+          : post
+      })
+
+      setData({
+        ...data,
+        results,
+      })
+    },
+    [data, request],
+  )
+
   const handleDelete = React.useCallback(
     async (postID: number) => {
       await request({
@@ -120,6 +167,7 @@ export function usePosts() {
     isLoading,
     handleSubmit,
     handleDelete,
+    handleEditSubmit,
     setPage,
   }
 }

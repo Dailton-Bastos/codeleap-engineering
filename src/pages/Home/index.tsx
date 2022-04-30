@@ -24,8 +24,16 @@ type Post = {
 }
 
 export const Home = () => {
-  const { handleSubmit, data, handleDelete, isLoading, isError, setPage } =
-    usePosts()
+  const {
+    data,
+    isError,
+    isLoading,
+    setPage,
+    handleSubmit,
+    handleDelete,
+    handleEditSubmit,
+  } = usePosts()
+
   const [posts, setPosts] = React.useState<Post[]>([])
 
   React.useEffect(() => {
@@ -63,6 +71,7 @@ export const Home = () => {
                   post={post}
                   key={post.key}
                   handleDelete={handleDelete}
+                  handleEditSubmit={handleEditSubmit}
                   isLoading={isLoading}
                   isError={isError}
                 />

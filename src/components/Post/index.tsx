@@ -2,11 +2,10 @@ import React from 'react'
 import { RiDeleteBin2Fill, RiEditBoxLine } from 'react-icons/ri'
 
 import { Can } from '~/components/Can'
-import { Modal } from '~/components/Modal'
 import { useDisclosure } from '~/hooks/useDisclosure'
 import { useScrollToTop } from '~/hooks/useScroll'
 
-import { DeleteConfirmModal } from './DeleteConfirmModal'
+import { DeleteModal } from './DeleteModal'
 import { EditModal } from './EditModal'
 import { Preview } from './Preview'
 import styles from './styles.module.scss'
@@ -76,14 +75,14 @@ export const Post = ({
       </article>
 
       <Can username={post.username}>
-        <Modal isOpen={isOpen} onClose={() => onClose()} closeOnOverlayClick>
-          <DeleteConfirmModal
-            onCancel={onClose}
-            onConfirm={() => handleDelete(post.id)}
-            isDisabled={isLoading}
-            isError={isError}
-          />
-        </Modal>
+        <DeleteModal
+          onCancel={() => onClose()}
+          onClose={() => onClose()}
+          onConfirm={() => handleDelete(post.id)}
+          isOpen={isOpen}
+          isDisabled={isLoading}
+          isError={isError}
+        />
 
         <EditModal
           post={post}

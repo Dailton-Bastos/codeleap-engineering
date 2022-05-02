@@ -14,11 +14,16 @@
   textarea {
     border: 1px solid var(--gray-500);
     border-radius: 4px;
-    min-height: 74px;
-    max-height: 250px;
+    min-height: 250px;
+    max-height: 350px;
     padding: 0.6rem 1rem;
     resize: vertical;
     width: 100%;
+
+    @media only screen and (max-width: 768px) {
+      min-height: 120px;
+      max-height: 220px;
+    }
 
     &::placeholder {
       color: #ccc;

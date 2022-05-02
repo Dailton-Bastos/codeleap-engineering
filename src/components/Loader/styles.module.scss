@@ -37,12 +37,12 @@
 .loaderEllipsis,
 .loaderRing {
   display: inline-block;
-  position: relative;
   width: 25px;
   height: 25px;
 }
 
 .loaderEllipsis {
+  position: absolute;
   div {
     position: absolute;
     top: 33px;
@@ -75,6 +75,7 @@
 }
 
 .loaderRing {
+  position: relative;
   div {
     box-sizing: border-box;
     display: block;
